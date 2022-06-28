@@ -38,8 +38,8 @@ class postconterller extends Controller
     public function allpost()
     {
         //for work with table->post we should add code in post modle {protected $table = 'post';}
-//        $post=post::all();
-//        return $post;
+        $post=post::all();
+        return $post;
 
         //find by id field
 //        $post=post::find(2);
@@ -49,8 +49,8 @@ class postconterller extends Controller
 //        $post = post::where('title','111')->orderby('id','asc')->get(); //desc //asc
 //        return $post;
 
-        $post = post::where('title','111')->orderby('id','asc')->take(1)->get(); //take = limit(sql)
-        return $post;
+//        $post = post::where('title','111')->orderby('id','asc')->take(1)->get(); //take = limit(sql)
+//        return $post;
 
         // if not found result. show 404
 //        $post=post::findOrFail(2);
@@ -74,5 +74,22 @@ class postconterller extends Controller
 
         //for work with table->post in methode create we should add code in post modle {protected $fillable = ['title','content'];}
         $post = post::create(['title'=>'title 2' , 'content'=>'content 2']);
+    }
+
+    public function updatePost()
+    {
+        //first way
+//        $post = post::where('id','4')->update(['title' => 'update']);
+
+
+        //secend way
+        $post = post::findOrFail(4);
+
+        $post->title = 'new';
+        $post->content = 'content';
+
+        $post->save();
+
+        return $post;
     }
 }

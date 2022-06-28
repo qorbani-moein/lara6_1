@@ -85,3 +85,4 @@ Route::prefix('db')->group(function(){
 
 Route::get('/post/all','postconterller@allpost');
 Route::get('/post/save','postconterller@savePost');
+Route::get('/post/update','postconterller@updatePost');
