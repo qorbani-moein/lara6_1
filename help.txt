@@ -1,0 +1,31 @@
+cmd:
+
+run prj:
+    php artisan serve
+
+make contriller:
+    php artisan make:controller {name}
+
+Database{migrate}:
+    make Database:
+        php artisan make:migration {name of migrations} --create {tableName}
+    ex:
+        php artisan make:migration table_posts --create posts
+
+    remove record data db:
+        php artisan migrate:fresh
+
+    backstep in db:
+        php artisan migrate:rollback
+
+    run methode folder database/migrations:
+        php artisan migrate
+
+    add field to table
+        php artisan make:migration {name of migrations} --table= {name able}
+    ex:
+        php artisan make:migration add_author --table= posts
+
+
+
+
