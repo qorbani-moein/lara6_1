@@ -92,4 +92,50 @@ class postconterller extends Controller
 
         return $post;
     }
+
+    public function deletePost()
+    {
+        //first way
+//        $post = post::where('id',4)->first();
+//        $post->delete();
+//        return "asdasd";
+
+        //secend way
+//        return post::destroy(3);
+
+        //thresd way
+        return post::destroy([2,1]);
+    }
+
+    //Recycle Bin
+    public function recyclebin()
+    {
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

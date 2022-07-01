@@ -86,3 +86,37 @@ Route::prefix('db')->group(function(){
 Route::get('/post/all','postconterller@allpost');
 Route::get('/post/save','postconterller@savePost');
 Route::get('/post/update','postconterller@updatePost');
+Route::get('/post/delete','postconterller@deletePost');
+
+/* Recycle Bin
+ *    in model add(in to)
+ *       {use Illuminate\Database\Eloquent\SoftDeletes; //Recycle Bin}
+ *    in class model add
+ *       use SoftDeletes;
+ *       protected $datess = ['deleted_at'];
+ *  --now need add col 'deleted_at' in table
+ *    in terminal
+ *       php artisan make:migration add_recyclebin_to_post_table --table="post"
+ *    in up function database/migrations/add_recyclebin_to_post_table/
+ *       $table->softDeletes();
+ *    in drop function database/migrations/add_recyclebin_to_post_table/
+ *       $table->dropColmun('deleted_at');
+ *    in terminal
+ *       php artisan migrate
+ *  --
+ */
+Route::get('/post/rb','postconterller@rb');
+
+
+
+/* One to One Relationship
+ * -----------------------------
+ * | table poste | table users |
+ * -----------------------------
+ * per post have user_id to find posted how created
+ *
+ * in terminal:
+ *      php artisan make:migration add_user_id_to_post_table --table="post"
+ * in function up add_user_id_to_post_table
+ *      $table->integer('user_id')->unsigned();
+ */
