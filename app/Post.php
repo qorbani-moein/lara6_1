@@ -14,4 +14,10 @@ class Post extends Model
     protected $table = 'post';
     protected $fillable = ['title','content'];
 
+    public function user()
+    {
+        //این کلاس متعلق است به کلاس یوزر
+        return $this->belongsTo(User::class);
+    }
+
 }

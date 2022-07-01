@@ -110,6 +110,7 @@ Route::get('/post/rb','postconterller@rb');
 
 
 /* One to One Relationship
+ * find user and get post of user
  * -----------------------------
  * | table poste | table users |
  * -----------------------------
@@ -119,4 +120,156 @@ Route::get('/post/rb','postconterller@rb');
  *      php artisan make:migration add_user_id_to_post_table --table="post"
  * in function up add_user_id_to_post_table
  *      $table->integer('user_id')->unsigned();
+ * in function drop add_user_id_to_post_table
+ *      $table->dropColumn('user_id');
+ * in terminal:
+ *      php artisan migrate
+ * for create relationship from model post to model user code below in model user added
+ *     public function post()
+        {
+            return $this->hasOne(post::class);
+        }
+ * now for add Route in web.php in below code
+ *
  */
+
+Route::get('user/{id}/post',function($id){
+
+    //find(user)-> get post
+//    $user_post= \App\User::find(2)->post;// 2-> id user in user table
+//    return $user_post;
+
+    //find(user)-> get post -> get title
+    $user_post= \App\User::find($id)->post;// id-> id user in user table
+    return $user_post;
+});
+
+/*
+ * reverse request
+ * find post and  get user of post
+ * if model post add code:
+ *    public function user()
+    {
+        //این کلاس متعلق است به کلاس یوزر
+        return $this->belongsTo(User::class);
+    }
+ *
+ *
+ */
+
+
+Route::get('post/{id}/user',function($id){
+
+    $post_user = \App\Post::find($id)->user;
+    return $post_user;
+});
+
+/*
+ * many to One Relationship
+ * find user and get All posts
+ * in model user add code:
+ *    public function posts()
+        {
+            return$this->hasMany(post::class);
+        }
+ *
+ *
+ */
+
+Route::get('user/{id}/posts',function ($id){
+    //get all post of user
+    $user_posts = \App\User::find($id)->posts;
+
+    foreach ($user_posts as $user_post) {
+        echo $user_post->title;
+        echo '</br>';
+    }
+});
+
+/*
+ * Many to Many Relationship
+ *
+ * in example create model role and table
+ * in terminal:
+ *      php artisan make:model Role -m {-m -> magration}
+ * in migrate create_roles_table function up:
+ *      $table->string('name');
+ * for use (Many to Many Relationship) we need new table to put Relationship. Name of Operation is pivot
+ * in terminal:
+ *      php artisan make:migration add_pivot_role_user_table --create=role_user
+ * in migration add_pivot_role_user_table function up:
+ *      $table->integer('user_id')->unsigned();
+ *      $table->integer('role_id')->unsigned();
+ * now create migrate
+ * in terminal:
+ *      php artisan migrate
+ * in database(phpmyadmin) add 2 user
+ * in database(phpmyadmin) add 1 role
+ *
+ * in model Role:
+ *   public function users()
+    {
+        //هر کاربر میتواند چند نقش بگیرد
+        return $this->belongsToMany(User::class);
+    }
+
+ *
+ * in model post
+ *   public function roles()
+    {
+        //هر نقش میتواند به چندین کاربر تعلق بگیرد
+        return $this->belongsToMany(Role::class);
+    }
+ *
+ */
+// Relattion from User for get role
+Route::get('user/{id}/roles',function($id){
+
+    //get all role of User
+//    $user_roles = \App\User::find($id)->roles;
+//    return $user_roles;
+
+    //get all date of role of user and just get name of role
+    $user_roles = \App\User::find($id)->roles;
+    foreach ($user_roles as $user_role) {
+        echo $user_role->name;
+        echo '<br>';
+    }
+});
+
+// Relation from role for get user
+Route::get('role/{id}/users',function($id){
+   $role_users = \App\Role::find($id)->users;
+   return $role_users;
+});
+
+
+/*
+ * ex many to any Relationship
+ *
+ * table created:
+ *  comments -> end name of table just (s) -> comment(s)
+ *  hashtags -> end name of table just (s) -> hashtag(s)
+ *  comment_hashtag
+ *
+ *
+ *
+ */
+
+Route::get('hashtag/{id}/comments',function ($id){
+    $comment = \App\hashtag::find($id)->comment;
+    return $comment;
+});
+
+Route::get('comment/{id}/hashtags',function ($id){
+    $hashtag = \App\comment::find($id)->hashtag;
+    return $hashtag;
+});
+
+Route::get('user/{id}/hashtag',function ($id){
+//    $hashtag = \App\hashtag::find($id)->user;
+//    return $hashtag;
+    $hashtag= \App\User::find($id)->hashtag;
+    return $hashtag;
+});
+
