@@ -9,7 +9,7 @@ class Post extends Model
 {
     //Recycle Bin
     use SoftDeletes;
-    protected $datess = ['deleted_at'];
+    protected $date = ['deleted_at'];
     //111222
     protected $table = 'post';
     protected $fillable = ['title','content'];

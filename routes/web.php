@@ -93,7 +93,7 @@ Route::get('/post/delete','postconterller@deletePost');
  *       {use Illuminate\Database\Eloquent\SoftDeletes; //Recycle Bin}
  *    in class model add
  *       use SoftDeletes;
- *       protected $datess = ['deleted_at'];
+ *       protected $date = ['deleted_at'];
  *  --now need add col 'deleted_at' in table
  *    in terminal
  *       php artisan make:migration add_recyclebin_to_post_table --table="post"
@@ -103,9 +103,14 @@ Route::get('/post/delete','postconterller@deletePost');
  *       $table->dropColmun('deleted_at');
  *    in terminal
  *       php artisan migrate
+ *    first call Route(/post/rb/delete/)->destroy
+ *    secend call Route(/post/rb/show/) to show all destroyed
+ *    for 100% delete cal foreceDelete
  *  --
  */
-Route::get('/post/rb','postconterller@rb');
+Route::get('/post/rb/show','postconterller@workWithTrash');
+Route::get('/post/rb/delete','postconterller@foreceDelete');
+Route::get('/post/rb/restor','postconterller@restorPost');
 
 
 
@@ -262,7 +267,7 @@ Route::get('hashtag/{id}/comments',function ($id){
 });
 
 Route::get('comment/{id}/hashtags',function ($id){
-    $hashtag = \App\comment::find($id)->hashtag;
+    $hashtag = \app\comment::find($id)->hashtag;
     return $hashtag;
 });
 

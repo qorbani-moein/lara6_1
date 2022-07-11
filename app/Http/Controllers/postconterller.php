@@ -101,16 +101,46 @@ class postconterller extends Controller
 //        return "asdasd";
 
         //secend way
-//        return post::destroy(3);
+        return post::destroy(2);
 
         //thresd way
-        return post::destroy([2,1]);
+//        return post::destroy([2,1]);
     }
 
     //Recycle Bin
     public function recyclebin()
     {
 
+    }
+
+    public function workWithTrash()
+    {
+        //Show all data + data is trashed
+//        $post = Post::withTrashed()->get();
+//        return $post;
+
+        //show Only have data in deleted_at
+        $post = Post::onlyTrashed()->get();
+        return $post;
+
+        //show Only have data in deleted_at with Where
+        $post = Post::onlyTrashed()->where('is_admin',1)->get();
+        return $post;
+
+    }
+
+    public function restorPost()
+    {
+        //restor post with Where
+        $post = Post::onlyTrashed()->where('id',2)->restore();
+        return $post;
+    }
+
+    public function foreceDelete()
+    {
+        //for 100% delete call this
+        $post = Post::onlyTrashed()->where('id',2)->forceDelete();
+        return $post;
     }
 }
 
