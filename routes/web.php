@@ -278,3 +278,63 @@ Route::get('user/{id}/hashtag',function ($id){
     return $hashtag;
 });
 
+//Tinker
+/*
+ *
+ * Run Tinker in terminal:
+ *      php artisan tinker
+ *      $post = new App\Post
+ *      $post->title= 'new post with Tinker'
+ *      $post->content = 'content post with Tinker'
+ *      $post_user_id = 1
+ *      $post->save()
+ */
+
+
+// CRUD on to many Relationship
+/*
+ * easyless to Relationship
+ * in example bottom save($post)-> get id user in from post
+ *
+ * for True Working we need write function in model user:
+ *       public function posts()
+        {
+            return $this->hasMany(post::class);
+        }
+ *
+ *
+ */
+
+Route::get('/crud/create',function(){
+   $user = \App\User::find(2);
+   $post = new \App\Post();
+   $post->title = 'new title post of crud';
+   $post->content = 'new content post of crud';
+
+   $user->posts()->save($post);
+});
+
+// For View data of model User
+// call use (dd)
+
+Route::get('/crud/read',function(){
+   $user = \App\User::find(1);
+//    dd($user);
+    foreach ($user->posts as $post) {
+        echo $post->title;
+        echo "<br/>";
+
+    }
+});
+
+//find Post of User and edit with id post
+Route::get('/crud/update',function(){
+    $user = \App\User::find(1);
+    $user->posts()->whereId(1)->update(['title'=>'curd used']);
+});
+
+//find post of User and delete with id post
+Route::get('/crud/delete',function(){
+    $user = \App\User::find(1);
+    $user->posts()->whereId(1)->delete;
+});
