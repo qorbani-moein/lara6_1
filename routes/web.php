@@ -333,7 +333,7 @@ Route::get('/crud/update',function(){
     $user->posts()->whereId(1)->update(['title'=>'curd used']);
 });
 
-//find post of User and delete with id post ss
+//find post of User and delete with id post
 Route::get('/crud/delete',function(){
     $user = \App\User::find(1);
     $user->posts()->whereId(1)->delete;
