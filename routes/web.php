@@ -338,3 +338,15 @@ Route::get('/crud/delete',function(){
     $user = \App\User::find(1);
     $user->posts()->whereId(1)->delete;
 });
+
+// Crud many to Many Relationship
+/*
+ *
+ */
+
+Route::get('/crud/mtm/create',function(){
+    $user = \App\User::find(1);
+    $role = new \App\Role();
+    $role->name = 'author';
+    $user->roles()->save($role);
+});

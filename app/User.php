@@ -50,9 +50,9 @@ class User extends Authenticatable
     public function roles()
     {
         //هر کاربر میتواند چند نقش بگیرد
-//        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class);
         // زمانی که نام جدول دقیقا هم نام با رابطه ها نیست باید دستی مقدار دهی شود
-        return $this->belongsToMany(User::class,'role_user2','user_id','role_id');
+//        return $this->belongsToMany(User::class,'role_user2','user_id','role_id');
     }
 
     public function hashtag()
