@@ -278,6 +278,15 @@ Route::get('user/{id}/hashtag',function ($id){
     return $hashtag;
 });
 
+
+//Tinker
+/*
+ *Tinker is tools like shell
+ * for create model - controller - add/delete/update/ to database
+ *
+ */
+
+
 //Tinker
 /*
  *Tinker is tools like shell
@@ -345,10 +354,74 @@ Route::get('/crud/delete',function(){
 /*
  *
  */
-
+// create
 Route::get('/crud/mtm/create',function(){
     $user = \App\User::find(1);
     $role = new \App\Role();
     $role->name = 'author';
     $user->roles()->save($role);
+});
+
+//read
+Route::get('/crud/mtm/read',function(){
+    $user = \App\User::find(1);
+    foreach ($user->roles as $role) {
+        echo $role->name;
+        echo '<br/>';
+    }
+});
+
+//update
+Route::get('/crud/mtm/update' , function(){
+    $user = \App\User::find(1);
+    if($user->has('roles')){
+        foreach ($user->roles as $role) {
+            if($role->name == 'author'){
+                $role->name = 'admin';
+                $role->save();
+            }
+        }
+    }
+});
+
+//delete
+//در این نوع حذف کردن فقط نقش حذف میشود و رابطه اونها حذف نمیشود
+// حذف نمیشود pvite داده های
+Route::get('/crud/mtm/delete',function(){
+    $user = \App\User::find(1);
+    foreach ($user->roles as $role) {
+        if($role->name == 'Author'){
+            $role->delete();
+        }
+    }
+});
+
+//detach
+//delete with remove pvite
+//remove all data role in user
+Route::get('/crud/mtm/delete-detach',function(){
+    $user = \App\User::find(1);
+    //delete all role in user
+    $user->roles()->detach();
+    //delete a role in user(role id = 10)
+//    $user->roles()->whereId(10)->detach();
+    //delete a role in user(role id = 10)
+//    $user->roles()->detach(10);
+});
+
+//attach
+Route::get('/crud/mtm/delete-attach',function(){
+    $user = \App\User::find(1);
+    //role with id(1) add to user
+    $user->roles()->attach(2);
+});
+
+//sync
+//sync = (1: detach)(2: attach)
+//sync = delete all data of user in pvite table and re create data in pvite
+
+Route::get('/crud/mtm/delete-sync',function(){
+    $user = \App\User::find(1);
+    //remove all data pvite of user id (1) ad re create data role id (1 , 2)
+    $user->roles()->sync([1,2]);
 });
