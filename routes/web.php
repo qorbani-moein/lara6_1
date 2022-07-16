@@ -280,6 +280,8 @@ Route::get('user/{id}/hashtag',function ($id){
 
 //Tinker
 /*
+ *Tinker is tools like shell
+ * for create model - controller - add/delete/update/ to database
  *
  * Run Tinker in terminal:
  *      php artisan tinker
