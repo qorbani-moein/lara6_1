@@ -425,3 +425,9 @@ Route::get('/crud/mtm/delete-sync',function(){
     //remove all data pvite of user id (1) ad re create data role id (1 , 2)
     $user->roles()->sync([1,2]);
 });
+
+//Crud Polymorphice Relationship
+Route::get('/create',function(){
+   $user = \App\User::find(1);
+});
+
